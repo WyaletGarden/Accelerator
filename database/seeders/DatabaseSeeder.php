@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Figure;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,23 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Tránh tạo user trùng email
+        if (!User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+                'password' => bcrypt('password'), // nên có password rõ ràng nếu cần login
+            ]);
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Tránh tạo trùng FigureCode
+        if (!Figure::where('figureCode', 'VIOGSC2025')->exists()) {
+            Figure::factory()->create([
+                'figureName'  => 'Violet',
+                'figureCode'  => 'VIOGSC2025',
+                'figureBrand' => 'Good Smile Company',
+                'figureType'  => 'Scale 1/7',
+            ]);
+        }
     }
 }
